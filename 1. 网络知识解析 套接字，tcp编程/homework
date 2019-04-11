@@ -1,0 +1,29 @@
+
+1. 总结口述方案
+    OIS 七层模型和TCP/IP模型
+    三次握手 和 四次挥手的过程
+    tcp/udp区别
+
+2. 将完成的基本的TCP_server改写为一个当另一个客户端输入特殊字符退出后
+    可以继续接受下个客户端请求的程序
+
+3. 复习文件的读写seek操作
+
+
+
+
+
+
+drop table if exists student;
+create table student(
+    id int primary key auto_increment,
+    studentid int,
+    studentname varchar(20),
+    classid int,
+    foreign key(classid) references class(classid)
+    on delete cascade
+    on update cascade);
+
+
+
+select teacher.name from teacher, class where class.classid = "AID1807";

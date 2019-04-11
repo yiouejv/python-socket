@@ -1,0 +1,110 @@
+
+信号的使用
+    import signal
+    signal.alarm(sec)
+        功能
+            向自身发送时钟信号  --> SIGALARM
+        参数
+            sec  时钟时间
+        说明
+            进程中只能有一个时钟，第二个会覆盖第一个时间
+
+
+同步执行
+    按照顺序逐句执行，一步完成再做下一步
+
+
+异步执行
+    在执行过程中利用内核记录延迟发生或准备处理的事件，这样不影响应用层的持续执行，
+    当事件发生时再由内核告知应用层处理
+# 信号是唯一的异步通信的方法
+
+
+signal.pause()
+功能
+    阻塞等待接收一个信号
+
+
+signal.signal(signum, handler)
+功能
+    处理信号
+参数
+    signum 要处理的信号
+    handler 信号的处理方法
+        SIG_DFL    表示使用默认的方法处理
+        SIG_IGN    表示忽略这个信号
+        func       传入一个函数，表示用指定函数处理
+                def func(sig, frame)
+                    sig: 捕获到的信号
+                    frame: 信号的对象
+
+信号量（信号灯）
+    原理：
+        给定一个数量对多个进程可见，且多个进程都可以操作。进程通过对信号量
+        多少的判断执行各自的行为。
+
+
+
+multiprocessing --->  Semaphore()
+sem = Semaphore(num)
+    功能：
+        创建信号量
+    参数
+        信号量初始值
+    返回
+        信号量对象
+
+sem.get_value()  # 获取信号量值
+sem.acquire()  # 将信号量减1, 当信号量为0会阻塞
+sem,release()  # 将信号量加1
+
+
+进程的同步互斥
+    临界资源
+        多个进程或者线程都能操作的共享资源
+    临界区
+        操作临界资源的代码段
+    同步
+        同步是一种合作关系，为完成某个任务，多进程或者多线程之间形成一种协调，
+        按照约定去执行或条件执行操作临界资源。
+    互斥
+        互斥是一种制约关系，当一个进程或者线程使用临界资源时进行上锁处理，当另一个进程使用
+        时会阻塞等待，直到解锁后才能继续使用.
+
+
+Event  事件
+    multiprocessing --> Event
+    # 创建事件对象
+    e = Event()
+
+    # 设置事件阻塞
+    e.wait([timeout])
+
+    # 事件设置, 当事件被设置后, e.wait()后不再阻塞
+        e.set()
+
+    # 清除设置, 当事件设置被clear后, e.wait()又被阻塞
+        e.clear()
+
+    # 事件状态判断
+        e.is_set()
+
+Lock 锁
+    from multiprocessing import Lock
+    # 创建对象
+        lock = Lock()
+    # 上锁
+        lock.acquire()
+        如果已经是上锁状态调用此函数会阻塞
+    # 解锁
+        lock.release()
+
+
+with lock:  # 上锁
+    ...
+    ...
+
+       # 解锁
+
+
+
